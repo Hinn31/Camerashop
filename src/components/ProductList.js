@@ -6,6 +6,8 @@ const ProductList = () => {
 
   useEffect(() => {
     fetch('https://656ca88ee1e03bfd572e9c16.mockapi.io/products')
+    // fetch('http://127.0.0.1:8000/products')
+
       .then(res => res.json())
       .then(data => setProducts(data))
       .catch(error => console.error('Fetch error:', error));
