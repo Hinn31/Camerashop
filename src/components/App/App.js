@@ -114,12 +114,98 @@
 // export default App;
 
 
-import GreetingFunction from '../State/GreetingFunction'; // hoặc GreetingClass
+// import GreetingFunction from '../State/GreetingFunction'; // hoặc GreetingClass
+
+// function App() {
+//   return (
+//     <div>
+//       <GreetingFunction />
+//     </div>
+//   );
+// }
+
+// export default App;
+
+// import Add from "../Content/Add";
+// import React from "react";
+// import ProductList from "../Content/ProductList";
+
+// function App() {
+//   return (
+//     <div className="App">
+//       <h1>Quản lý Sản Phẩm</h1>
+//       <ProductList/>
+//       <Add />  {/* Gọi component Add */}
+//     </div>
+//   );
+// }
+
+// export default App;
+
+// src/App.js
+import React, { useState } from 'react';
+import productsData from '../Content/data';
+import AddProductForm from '../Content/AddProductForm';
 
 function App() {
+  const [products, setProducts] = useState(productsData);
+  const [showForm, setShowForm] = useState(false);
+
+  const handleAddProduct = (newProduct) => {
+    setProducts(prev => [...prev, newProduct]);
+    setShowForm(false);
+  };
+
+  const renderProducts = (category) => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '40px' }}>
+      {products
+        .filter(product => product.category === category)
+        .map(product => (
+          <div key={product.id} style={{
+            width: '200px',
+            margin: '10px',
+            borderRadius: '10px',
+            overflow: 'hidden',
+            boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+            backgroundColor: '#fff',
+            transition: 'transform 0.3s',
+            textAlign: 'center',
+            cursor: 'pointer',
+          }}
+            // onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+            // onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            <img src={product.image} alt={product.name} style={{ width: '100%', height: '150px', objectFit: 'cover' }} />
+            <div style={{ padding: '10px' }}>
+              <h4 style={{ margin: '10px 0', fontSize: '16px', color: '#333' }}>{product.name}</h4>
+              <p style={{ margin: '5px 0', fontSize: '14px', textDecoration: 'line-through', color: '#999' }}>
+                {product.oldPrice.toLocaleString()}₫
+              </p>
+              <p style={{ margin: '5px 0', fontSize: '16px', color: '#e60023', fontWeight: 'bold' }}>
+                {product.newPrice.toLocaleString()}₫
+              </p>
+            </div>
+          </div>
+      ))}
+    </div>
+  );
+
   return (
-    <div>
-      <GreetingFunction />
+    <div style={{ padding: '20px' }}>
+      <button 
+        onClick={() => setShowForm(!showForm)}
+        style={{ marginBottom: '20px', padding: '10px', backgroundColor: '#008CBA', color: 'white', border: 'none', borderRadius: '5px' }}
+      >
+        {showForm ? 'Đóng form' : 'Thêm sản phẩm mới'}
+      </button>
+
+      {showForm && <AddProductForm onAdd={handleAddProduct} />}
+
+      <h2>Danh mục Nam</h2>
+      {renderProducts('nam')}
+
+      <h2>Danh mục Nữ</h2>
+      {renderProducts('nữ')}
     </div>
   );
 }
