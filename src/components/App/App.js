@@ -172,8 +172,7 @@ function App() {
             textAlign: 'center',
             cursor: 'pointer',
           }}
-            // onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-            // onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+  
           >
             <img src={product.image} alt={product.name} style={{ width: '100%', height: '150px', objectFit: 'cover' }} />
             <div style={{ padding: '10px' }}>
